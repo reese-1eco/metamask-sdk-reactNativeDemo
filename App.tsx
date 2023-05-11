@@ -56,6 +56,7 @@ const sdk = new MetaMaskSDK({
   },
   storage: {
     enabled: true,
+    debug: true,
   },
 });
 
