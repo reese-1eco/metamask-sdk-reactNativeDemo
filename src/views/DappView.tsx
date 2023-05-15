@@ -1,10 +1,10 @@
-import {MetaMaskInpageProvider} from '@metamask/providers';
 import {ConnectionStatus, EventType, MetaMaskSDK} from '@metamask/sdk';
 import {ethers} from 'ethers';
 import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {colors} from './colors';
 import {ServiceStatusView} from './service-status-view';
+import {getContractFullInfo, makeDaiContract} from '../contracts';
 
 export interface DAPPViewProps {
   sdk: MetaMaskSDK;
@@ -56,6 +56,7 @@ export const DAPPView = ({sdk}: DAPPViewProps) => {
   const [status, setConnectionStatus] = useState(ConnectionStatus.DISCONNECTED);
   const [serviceStatus, _setServiceStatus] = useState(sdk.getServiceStatus());
   const styles = createStyles(status);
+  const [contract, setContract] = useState<ethers.Contract>();
 
   const getBalance = async () => {
     if (!ethereum?.selectedAddress) {
@@ -67,13 +68,20 @@ export const DAPPView = ({sdk}: DAPPViewProps) => {
     setBalance(ethers.utils.formatEther(bal));
   };
 
+  const getContractTest = async (_provider: ethers.providers.Web3Provider) => {
+    if (ethereum?.selectedAddress) {
+      const contract = makeDaiContract(ethereum?.selectedAddress, _provider);
+      const info = await getContractFullInfo(contract);
+      console.log(info);
+    }
+  };
+
   useEffect(() => {
     try {
-      setProvider(new ethers.providers.Web3Provider(ethereum));
+      const _provider = new ethers.providers.Web3Provider(ethereum);
+      setProvider(_provider);
 
-      console.debug(
-        `useffect ethereum.selectedAddress=${ethereum.selectedAddress}`,
-      );
+      console.debug(`selectedAdd=${ethereum.selectedAddress}`);
       if (ethereum.selectedAddress) {
         setConnected(true);
         setAccount(ethereum.selectedAddress);
@@ -279,6 +287,10 @@ export const DAPPView = ({sdk}: DAPPViewProps) => {
           <Button title="Sign" onPress={sign} />
           <Button title="Send transaction" onPress={sendTransaction} />
           <Button title="Add chain" onPress={exampleRequest} />
+          <Button
+            title="try to get contract info"
+            onPress={() => provider ?? getContractTest(provider)}
+          />
           <Text style={textStyle}>
             {chain && `Connected chain: ${chain}\n`}
             {account && `Connected account: ${account}\n\n`}
