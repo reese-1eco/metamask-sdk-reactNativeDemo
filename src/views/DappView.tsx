@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {colors} from './colors';
 import {ServiceStatusView} from './service-status-view';
-import {getContractFullInfo, makeDaiContract} from '../contracts';
+import {getContractFullInfo, makeContract} from '../contracts';
 
 export interface DAPPViewProps {
   sdk: MetaMaskSDK;
@@ -68,9 +68,10 @@ export const DAPPView = ({sdk}: DAPPViewProps) => {
     setBalance(ethers.utils.formatEther(bal));
   };
 
-  const getContractTest = async (_provider: ethers.providers.Web3Provider) => {
-    if (ethereum?.selectedAddress) {
-      const contract = makeDaiContract(ethereum?.selectedAddress, _provider);
+  const getContractTest = async () => {
+    console.log(ethereum?.selectedAddress);
+    if (ethereum?.selectedAddress && provider) {
+      const contract = makeContract(ethereum?.selectedAddress, provider);
       const info = await getContractFullInfo(contract);
       console.log(info);
     }
@@ -287,10 +288,7 @@ export const DAPPView = ({sdk}: DAPPViewProps) => {
           <Button title="Sign" onPress={sign} />
           <Button title="Send transaction" onPress={sendTransaction} />
           <Button title="Add chain" onPress={exampleRequest} />
-          <Button
-            title="try to get contract info"
-            onPress={() => provider ?? getContractTest(provider)}
-          />
+          <Button title="try to get contract info" onPress={getContractTest}/>
           <Text style={textStyle}>
             {chain && `Connected chain: ${chain}\n`}
             {account && `Connected account: ${account}\n\n`}
