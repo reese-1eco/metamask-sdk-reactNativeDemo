@@ -8,6 +8,9 @@
     - https://github.com/MetaMask/metamask-sdk/tree/main/packages/examples/reactNativeDemo
 
 ## changed Note
+-
+- fix: Fix conditional expression error
+- feat(refer): add web app source(.tgz) for action comparison
 - feat(contract): add contract function
 - feat(debug): Change env, lib version for debug on device.
 
@@ -69,4 +72,7 @@ yarn ios:device         # build and install on device
 - path : ./refer-examples-CRA-web-app/create-react-app.tgz
 
 ## issues
-- [https://github.com/MetaMask/metamask-sdk/issues/112](`[ReactNative, ios] When re-connect is repeated, there is a problem that does not connect normally (MetaMask SDK Version: v0.2.3)`)
+- https://github.com/MetaMask/metamask-sdk/issues/112
+    - `[ReactNative, ios] When re-connect is repeated, there is a problem that does not connect normally (MetaMask SDK Version: v0.2.3)`
+- https://github.com/MetaMask/metamask-sdk/issues/113
+    - `[ReactNative, ios] Issues occurred in the use of Contract's ABI (MetaMask SDK: v0.2.3, MetaMask Mobile: v6.3.0)`
