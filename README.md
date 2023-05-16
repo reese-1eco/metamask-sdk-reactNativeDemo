@@ -49,3 +49,24 @@ System:
   npmGlobalPackages:
     *react-native*: Not Found
 ```
+
+## build and run
+
+### terminal 1
+```shell
+yarn install            # install dependencies
+yarn start              # run metro
+```
+
+### terminal 2
+```shell
+cd ios &&  pod deintegrate && rm -rf build && pod install && cd ..  # pod install
+yarn ios:device         # build and install on device
+```
+
+## refer web app source to diff
+- base source of web app: /examples/create-react-app
+- path : ./refer-examples-CRA-web-app/create-react-app.tgz
+
+## issues
+- [https://github.com/MetaMask/metamask-sdk/issues/112](`[ReactNative, ios] When re-connect is repeated, there is a problem that does not connect normally (MetaMask SDK Version: v0.2.3)`)
